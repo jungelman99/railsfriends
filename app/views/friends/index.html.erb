@@ -1,0 +1,44 @@
+ <%if user_signed_in?%>
+      <h1>Friend List</h1>
+      <table class="table table-striped table-bordered table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Twitter</th>
+              <th>FriendsId </th>
+              <th>Created by userID</th>
+              <th colspan="1"> Your userID: <% if current_user %> <%=current_user.id%> <% else %> guest <% end %> </th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <% @fullList.each do |friend| %>
+                <% if friend.user == current_user %>
+                    <tr>
+                      <td>
+                        <%= link_to friend.first_name+' '+friend.last_name, 
+                        friend%>                        
+                      </td>
+                      <td><%= friend.email %></td>
+                      <td><%= friend.phone %></td>
+                      <td><%= friend.twitter %></td>
+                      <th><%= friend.id %></th>
+                      <td><%= friend.user_id %></td>
+                      <td><%= button_to "Delete", friend, 
+                            method: :delete, 
+                            class: "btn btn-outline-danger btn-sm",
+                            data: {turbo_confirm: 'Are you sure?'} %></td>
+                    </tr>
+                <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      <%= link_to "Add New friend",
+           new_friend_path, 
+           class: "btn btn-secondary btn-sm" %>
+ <% else %>
+      <h1>Home#homepage</h1>
+      <p>Find me in app/views/home/homepage.html.erb</p>
+ <% end %>
